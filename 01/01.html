@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01</title>
+  <link rel="stylesheet" href="01.css">
+  <link rel="website icon" type="png" href="./imagers/selfie-tank-man-tiananmen-square-1989-v0-332wa16cuhra1.png">
+
+
+
+  
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+  <title>CodePen - Responsive Draggable Image Slider</title>
+
+    <link rel="canonical" href="https://codepen.io/ecemgo/pen/PoydaNN">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  
+  
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&family=Roboto:wght@300;500&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    min-height: 100dvh;
+    background: linear-gradient(160deg, rgba(72,63,102,1) 44%, rgba(185,173,219,1) 90%);
+    padding: 0 35px;
+}
+
+.wrapper {
+    /* position: relative; */
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper i {
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    line-height: 46px;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(to bottom, #856077, #b9addb);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5),
+                inset 0px 4px 4px rgba(255,255,255,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-in-out;
+}
+
+.wrapper i:active {
+  transform: scale(1.03);
+}
+
+.arrows {
+    /* position: absolute; */
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.wrapper .carousel {
+    white-space: nowrap;
+    font-size: 0;
+    overflow: hidden;
+    cursor: pointer;
+    scroll-behavior: smooth;
+}
+
+.carousel.dragging {
+    cursor: grab;
+    scroll-behavior: auto;
+}
+
+.carousel.dragging img {
+    pointer-events: none;
+}
+
+.carousel img {
+    height: 340px;
+    width: calc(100% / 3);
+    object-fit: cover;
+    margin-left: 14px;
+}
+
+.carousel img:first-child {
+    margin-left: 0;
+}
+
+@media screen and (max-width: 900px) {
+    .carousel img {
+        width: calc(100% / 2);
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .carousel img {
+        width: 100%;
+    }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <body>
+    <div class="wrapper">
+        <div class="carousel">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/22da6499-0441-4ba8-a00b-687fe9afb5c4" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/5f8c6cad-d54b-440e-a3d2-3e4b28b256d9" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/97955eee-2d76-4a04-89eb-5447d3a19cb1" alt="" draggable="false">
+           <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/3f0ff493-d47f-4e53-a329-c20cdb77d742" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/32018825-70f9-40d3-91c0-e494e033db85" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/c33af42b-755b-457a-ad80-827d8b64b0fd" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/197d4578-c328-43ce-90e4-36a74227dd3e" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/790c8690-aaa6-4898-b1fb-3264143a13d7" alt="" draggable="false">
+            <img src="https://github.com/ecemgo/frontend-mentor-challenges/assets/13468728/82e3ce91-06ba-472a-9f4a-6d3b215ed7ea" alt="" draggable="false">
+         
+        </div>
+        <div class="arrows">
+            <i id="left" class="fa-solid fa-angle-left"></i>
+            <i id="right" class="fa-solid fa-angle-right"></i>
+        </div>
+    </div>
+</body>
+  
+      <script id="rendered-js" >
+const carousel = document.querySelector(".carousel"),
+firstImg = document.querySelectorAll("img")[0];
+const arrowIcons = document.querySelectorAll(".wrapper i");
+
+let isDragStart = false,
+isDragging = false,
+prevPageX,
+prevScrollLeft,
+positionDiff;
+
+arrowIcons.forEach(icon => {
+  icon.addEventListener("click", () => {
+    let firstImgWidth = firstImg.clientWidth + 14; // getting first img width & adding 14 margin value
+    // if clicked icon is left, reduce width value from the carousel scroll left else add to it
+    carousel.scrollLeft += icon.id == "left" ? -firstImgWidth : firstImgWidth;
+  });
+});
+
+const autoSlide = () => {
+  // if there is no image left to scroll then return from here
+  if (carousel.scrollLeft == carousel.scrollWidth - carousel.clientWidth)
+  return;
+
+  positionDiff = Math.abs(positionDiff); // making positionDiff value to positive
+  let firstImgWidth = firstImg.clientWidth + 14;
+  // getting difference value that needs to add or reduce from carousel left to take middle img center
+  let valDifference = firstImgWidth - positionDiff;
+
+  if (carousel.scrollLeft > prevScrollLeft) {
+    // return console.log("user is scrolling to the right");
+    // if user is scrolling to the right
+    return carousel.scrollLeft +=
+    positionDiff > firstImgWidth / 3 ? valDifference : -positionDiff;
+  }
+  //   console.log("user is scrolling to the left");
+  // if user is scrolling to the left
+  carousel.scrollLeft -=
+  positionDiff > firstImgWidth / 3 ? valDifference : -positionDiff;
+};
+
+const dragStart = e => {
+  // updating global variables value on mouse down event
+  isDragStart = true;
+  prevPageX = e.pageX || e.touches[0].pageX;
+  prevScrollLeft = carousel.scrollLeft;
+};
+
+const dragging = e => {
+  // scrolling images/carousel to left according to mouse pointer
+  if (!isDragStart) return;
+  e.preventDefault();
+  isDragging = true;
+  carousel.classList.add("dragging");
+  positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
+  carousel.scrollLeft = prevScrollLeft - positionDiff;
+};
+
+const dragStop = () => {
+  isDragStart = false;
+  carousel.classList.remove("dragging");
+
+  if (!isDragging) return;
+  isDragging = false;
+  autoSlide();
+};
+
+carousel.addEventListener("mousedown", dragStart);
+carousel.addEventListener("touchstart", dragStart);
+
+carousel.addEventListener("mousemove", dragging);
+carousel.addEventListener("touchmove", dragging);
+
+carousel.addEventListener("mouseup", dragStop);
+carousel.addEventListener("mouseleave", dragStop);
+carousel.addEventListener("touchend", dragStop);
+//# sourceURL=pen.js
+    </script>
+
+  
+</body>
+
+</html>
